@@ -29,7 +29,7 @@ public class UserController {
         if (!created) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", "User already exists"));
+                    .body(Map.of("message", "UserName already exists"));
         }
 
         return ResponseEntity.ok(Map.of("message", "User registered successfully"));

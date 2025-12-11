@@ -8,6 +8,7 @@ import com.anujl.quiz_backend.entity.UserEntity;
 import com.anujl.quiz_backend.repository.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.DateOperators;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -62,7 +64,7 @@ UserEntity userEntity= userRepo.findByUsername(userLoginDto.getUsername())
 if(userEntity==null){
     throw new RuntimeException("User not found");
 }
-      userEntity.setLastLoginTime(LocalDateTime.now());
+      userEntity.setLastLoginTime(LocalDateTime.now().plusSeconds(5));
       userRepo.save(userEntity);
       return token;
   }
