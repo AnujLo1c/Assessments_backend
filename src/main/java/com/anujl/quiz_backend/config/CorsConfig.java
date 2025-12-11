@@ -17,7 +17,8 @@ public class CorsConfig {
 //                        .allowedOriginPatterns("http://localhost:5173")
                         .allowedOriginPatterns(
                         "http://localhost:5173",
-                        "https://assessments-frontend-gr9nk9vhd-anujs-projects-6c522968.vercel.app/"
+                        "https://assessments-frontend-gr9nk9vhd-anujs-projects-6c522968.vercel.app/",
+                                "https://assessments-frontend-five.vercel.app/"
                 )
 
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
