@@ -64,7 +64,7 @@ UserEntity userEntity= userRepo.findByUsername(userLoginDto.getUsername())
 if(userEntity==null){
     throw new RuntimeException("User not found");
 }
-      userEntity.setLastLoginTime(LocalDateTime.now().plusSeconds(5));
+      userEntity.setLastLoginTime(LocalDateTime.now().minusSeconds(5));
       userRepo.save(userEntity);
       return token;
   }
