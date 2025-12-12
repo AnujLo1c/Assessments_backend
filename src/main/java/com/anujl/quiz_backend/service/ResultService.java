@@ -6,10 +6,16 @@ import com.anujl.quiz_backend.entity.Result;
 import com.anujl.quiz_backend.model.SubmitRequest;
 import com.anujl.quiz_backend.repository.QuestionRepository;
 import com.anujl.quiz_backend.repository.ResultRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -76,7 +82,7 @@ return resultRepository.findAll();
                 .totalQuestions(totalQuestions)
                 .correctAnswers(correct)
                 .totalAttempted(attempted)
-
+                .createdAt(submitRequest.getCreatedAt())
                 .build();
 
         System.out.println("Resutl "+result);
@@ -87,8 +93,26 @@ return resultRepository.findAll();
     }
 
     public @Nullable List<?> getUserResults(String username) {
-//        String userId = userService.getUserIdByUsername(username);
         return resultRepository.findByUserid(username);
+    }
 
+//    public void fillup(){
+//        List<Result> results = resultRepository.findAll();
+//        int random=(int)Math.floor(Math.random()*10)+1;
+//        for (Result r : results) {
+//            r.setCreatedAt(LocalDateTime.now().minusHours(random));
+//        }
+//        resultRepository.saveAll(results);
+//        System.out.println("Done");
+//    }
+//    @PostConstruct
+//    public void runOnce() {
+//        fillup();
+//    }
+
+
+    public Page<Object> getUserResults(String username, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return resultRepository.findByUserid(username, pageable);
     }
 }

@@ -1,8 +1,11 @@
 package com.anujl.quiz_backend.controller;
 
 import com.anujl.quiz_backend.dto.SubmitTestRequest;
+import com.anujl.quiz_backend.entity.Result;
+import com.anujl.quiz_backend.service.JwtService;
 import com.anujl.quiz_backend.service.ResultService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ResultController {
 final ResultService resultService;
+final JwtService jwtService;
     @PostMapping("/submit")
     public ResponseEntity<?> submitTest(@RequestBody SubmitTestRequest submitRequest) {
         return ResponseEntity.ok().body(Map.of("resultId",resultService.submitTest(submitRequest)));
@@ -27,6 +31,18 @@ final ResultService resultService;
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUserResults(@PathVariable("id") String id) {
         return ResponseEntity.ok(resultService.getUserResults(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Object>> getResults(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestHeader("Authorization") String token
+    ) {
+        String userId = jwtService.extractUsername(token.substring(7).trim());
+        Page<Object> results = resultService.getUserResults(userId, page, size);
+        System.out.println("Results "+results);
+        return ResponseEntity.ok(results);
     }
 
 
