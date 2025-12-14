@@ -8,6 +8,7 @@ import com.anujl.quiz_backend.entity.Quiz;
 import com.anujl.quiz_backend.repository.QuestionRepository;
 import com.anujl.quiz_backend.repository.QuizRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class AdminService {
 
         return questionRepo.save(q);
     }
-
+@Transactional
     public void addAllQuestion(List<QuestionCreateDTO> allDto) {
 allDto.forEach(dto-> {
     Question q = new Question();
@@ -86,6 +87,7 @@ allDto.forEach(dto-> {
 
     questionRepo.save(q);
 });
+        System.out.println("Added all questions");
     }
 
     public List<Question> getAllQuestions() {

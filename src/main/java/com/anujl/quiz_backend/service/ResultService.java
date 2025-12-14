@@ -73,7 +73,7 @@ return resultRepository.findAll();
         }
 
 
-        // 5️⃣ Build Result object
+        // Build Result object
         Result result = Result.builder()
                 .userid(submitRequest.getUsername())
                 .quizid(submitRequest.getQuizId())

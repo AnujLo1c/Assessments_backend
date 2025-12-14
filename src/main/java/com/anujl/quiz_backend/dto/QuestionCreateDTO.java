@@ -12,7 +12,6 @@ public class QuestionCreateDTO {
     private QuestionType type;
     private List<String> options;
     private String correctAnswer;
- ;
     private Tag tags;
     private Difficulty difficulty;
     private Integer marks;
